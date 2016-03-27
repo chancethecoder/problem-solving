@@ -3,74 +3,37 @@
 
 using namespace std;
 int N;
-/*
+
 void proc()
 {
     scanf("%d", &N);
 
-    int sum = 0;
-    int tail = N / 2;
+    if(__builtin_popcount(N) == 1)
+        puts("IMPOSSIBLE");
 
-    for(int head = N / 2; head > 0; --head)
+    else if(N % 2)
     {
-        sum += head;
+        int k = N / 2;
+        printf("%d = %d + %d\n", N, k, k + 1);
+    }
 
-        while(sum > N)
+    else
+    {
+        for(int k = 2; k * (k + 1) <= 2 * N; ++k)
         {
-            sum -= tail--;
-        }
+            int x = N / k - (k - 1) / 2;
 
-        if(sum == N)
-        {
-            printf("%d = ", N);
-            for(int i = head; i < tail; ++i)
+            if(2 * k * x + (k - 1) * k == 2 * N)
             {
-                printf("%d + ", i);
+                printf("%d = ", N);
+                for(int i = x; i < x + k - 1; ++i)
+                    printf("%d + ", i);
+                printf("%d\n", x + k - 1);
+                return;
             }
-            printf("%d\n", tail);
-
-            return;
         }
     }
 
-    puts("IMPOSSIBLE");
-}
-*/
-
-void proc()
-{
-    scanf("%d", &N);
-
-    if(N % 2 && N != 1)
-    {
-        printf("%d = %d + %d\n", N, N / 2, N / 2 + 1);
-        return;
-    }
-
-    for(int k = 2; k * (k + 1) / 2 <= N; ++k)
-    {
-        bool mod = (N % k) != 0;
-        int median = N / k;
-        int sum = mod ? 0 : median;
-        int iter = 0;
-
-        while(sum < N)
-        {
-            sum += 2 * median + mod;
-            ++iter;
-        }
-
-        if(sum == N)
-        {
-            printf("%d = ", N);
-            for(int i = median - iter + mod; i < median + iter; ++i)
-                printf("%d + ", i);
-            printf("%d\n", median + iter);
-            return;
-        }
-    }
-
-    puts("IMPOSSIBLE");
 }
 
 int main()
