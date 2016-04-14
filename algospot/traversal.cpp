@@ -3,7 +3,7 @@
 #include <algorithm>
 using namespace std;
 
-void post(const vector<int> &pre, const vector<int> &in, 
+void post(const vector<int> &pre, const vector<int> &in,
 		int pi, int pj, int ini, int inj)
 {
 	if(pi >= pre.size()) return;
@@ -32,4 +32,5 @@ void proc()
 int main()
 {
 	proc();
+	return 0;
 }

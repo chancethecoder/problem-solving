@@ -1,73 +1,63 @@
-#include <cstdio>
 #include <iostream>
+#include <cstdio>
+#include <cstring>
 #include <queue>
+
 using namespace std;
 const int MAX_I = 300;
-const int INF = 1000000007;
-int l;
-int dx[8] = {-2, -1, 1, 2, 2, 1, -1, -2};
-int dy[8] = {1, 2, 2, 1, -1, -2, -2, -1};
-pair<int, int> start;
-pair<int, int> end;
-int mat[MAX_I][MAX_I];
+const int INF = 1e9 + 7;
+const int dy[] = {1, 2, 2, 1, -1, -2, -2, -1};
+const int dx[] = {-2, -1, 1, 2, 2, 1, -1, -2};
+int I;
+int x1, y1, x2, y2;
+int dist[MAX_I][MAX_I];
 
 int solve()
 {
-	for(int i = 0; i < l; ++i)
-		for(int j = 0; j < l; ++j)
-			mat[i][j] = INF;
+	memset(dist, INF, sizeof(dist));
 
 	queue<pair<int, int> > q;
-	int y = start.first;
-	int x = start.second;
-	q.push(make_pair(y, x));
-	
-	mat[y][x] = 0;
+
+	dist[y1][x1] = 0;
+	q.push({y1, x1});
 
 	while(!q.empty())
 	{
-		y = q.front().first;
-		x = q.front().second;
+		int y = q.front().first;
+		int x = q.front().second;
 		q.pop();
-
-		if(y == end.first && x == end.second)
-			return mat[y][x];
 
 		for(int k = 0; k < 8; ++k)
 		{
 			int ny = y + dy[k];
 			int nx = x + dx[k];
 
-			if(ny < 0 || ny >= l || nx < 0 || nx >= l) continue;
+			if(ny < 0 || nx < 0 || ny >= I || nx >= I) continue;
 
-			if(mat[ny][nx] > mat[y][x] + 1)
+			if(dist[ny][nx] > dist[y][x] + 1)
 			{
-				mat[ny][nx] = mat[y][x] + 1;
-				q.push(make_pair(ny, nx));
+				dist[ny][nx] = dist[y][x] + 1;
+				q.push({ny, nx});
 			}
 		}
 	}
+
+	return dist[y2][x2];
 }
 
 void proc()
 {
-	int tc;
-	for(scanf("%d", &tc); tc--; )
-	{
-		cin >> l;
-		int a, b;
-		cin >> a >> b;
-		start.first = b, start.second = a;
-		cin >> a >> b;
-		end.first = b, end.second = a;
+	cin >> I;
+	cin >> x1 >> y1;
+	cin >> x2 >> y2;
 
-		printf("%d\n", solve());
-	}
-
+	cout << solve() << "\n";
 }
 
 int main()
 {
-	proc();
+	int tc;
+	for(scanf("%d", &tc); tc--;)
+		proc();
 	return 0;
 }
