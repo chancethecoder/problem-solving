@@ -1,93 +1,54 @@
 #include <iostream>
-#include <string>
 #include <cstdio>
-#include <cstring>
-#include <cstdlib>
-#include <cmath>
-#include <algorithm>
-#include <climits>
-#include <bitset>
-#include <stack>
 #include <queue>
-#include <vector>
-#include <deque>
+
 using namespace std;
+const int MAX_N = 100;
+const int dy[] = {0, 0, -1, 1};
+const int dx[] = {-1, 1, 0, 0};
 int n, m;
-char arr[102][102];
-bool visited[102][102];
+char map[MAX_N + 1][MAX_N + 1];
+int dist[MAX_N][MAX_N];
 
-void BFS(){
-    deque<short> y, x, l;
-    y.push_back(0);
-    x.push_back(0);
-    l.push_back(1);
+int solve()
+{
+    queue<pair<int, int> > q;
+    q.push(make_pair(0, 0));
+    dist[0][0] = 1;
 
-    while (!x.empty() && (x.front() != m-1 || y.front() != n-1)){
+    while(!q.empty())
+    {
+        int y = q.front().first;
+        int x = q.front().second;
+        q.pop();
 
-        if (!visited[y.front() - 1][x.front()]
-            && y.front() > 0 && arr[y.front() - 1][x.front()] == '1'){
+        for(int k = 0; k < 4; ++k)
+        {
+            int ny = y + dy[k];
+            int nx = x + dx[k];
+            if(ny < 0 || nx < 0 || ny >= n || nx >= m) continue;
+            if(map[ny][nx] == '0') continue;
+            if(dist[ny][nx] && dist[ny][nx] < dist[y][x] + 1) continue;
 
-            visited[y.front() - 1][x.front()] = true;
-
-            y.push_back(y.front() - 1);
-            x.push_back(x.front());
-            l.push_back(l.front() + 1);
-            arr[y.front()][x.front()] = '0';
+            dist[ny][nx] = dist[y][x] + 1;
+            q.push(make_pair(ny, nx));
         }
-
-        if (!visited[y.front() + 1][x.front()]
-            && y.front() < n - 1 && arr[y.front() + 1][x.front()] == '1'){
-
-            visited[y.front() + 1][x.front()] = true;
-
-            y.push_back(y.front() + 1);
-            x.push_back(x.front());
-            l.push_back(l.front() + 1);
-            arr[y.front()][x.front()] = '0';
-        }
-
-        if (!visited[y.front()][x.front() - 1] &&
-            x.front() > 0 && arr[y.front()][x.front() - 1] == '1'){
-
-            visited[y.front()][x.front() - 1] = true;
-
-            y.push_back(y.front());
-            x.push_back(x.front() - 1);
-            l.push_back(l.front() + 1);
-            arr[y.front()][x.front()] = '0';
-        }
-
-        if (!visited[y.front()][x.front() + 1] &&
-            x.front() < m - 1 && arr[y.front()][x.front() + 1] == '1'){
-
-            visited[y.front()][x.front() + 1] = true;
-
-            y.push_back(y.front());
-            x.push_back(x.front() + 1);
-            l.push_back(l.front() + 1);
-            arr[y.front()][x.front()] = '0';
-        }
-
-        y.pop_front();
-        x.pop_front();
-        l.pop_front();
     }
-
-    if (!x.empty())
-        cout << l.front() << "\n";
+    return dist[n - 1][m - 1];
 }
 
-int main(){
-    int i, j;
-    string s;
-    cin >> n >> m;
-
-    for (i = 0; i < n; i++){
-        cin >> s;
-        for (j = 0; j < m; j++)
-            arr[i][j] = s[j];
+void proc()
+{
+    scanf("%d %d", &n, &m);
+    for(int i = 0; i < n; ++i)
+    {
+        getchar(); scanf("%s", map[i]);
     }
+    printf("%d\n", solve());
+}
 
-    BFS();
+int main()
+{
+    proc();
     return 0;
 }

@@ -1,69 +1,51 @@
+#include <iostream>
 #include <cstdio>
-#include <cstdlib>
 #include <cstring>
+#include <cstdlib>
+#include <vector>
 #define min(a,b) ((a)<(b)?(a):(b))
-#define INF 1000000
+
 using namespace std;
-int n;
-int move[100010];
-int dp[5][5][100010];
+const int MAX_N = 100000;
+int cache[MAX_N][5][5];
+int len;
+vector<int> seq;
 
-int work(int from, int to)
+int work(int a, int b)
 {
-	if(to == 0) return INF;
-	if(from == 0) return 2;
+	if(!a) return 2;
+	if(a == b) return 1;
+	if(abs(a - b) == 2) return 4;
+	return 3;
+}
 
-	int diff = abs(to - from);
+int solve(int pos, int left, int right)
+{
+	if(len <= pos) return 0;
 
-	if(diff == 0) return 1;
-	else if(diff == 2) return 4;
-	else return 3;
+	int &ret = cache[pos][left][right];
+	if(ret != -1) return ret;
+
+	ret = solve(pos + 1, left, seq[pos]) + work(right, seq[pos]);
+	ret = min(ret, solve(pos + 1, seq[pos], right) + work(left, seq[pos]));
+
+	return ret;
 }
 
 void proc()
 {
-	for(; scanf("%d", &move[++n]) && move[n]; );
+	memset(cache, -1, sizeof(cache));
 
-	for(int i = 0; i < 5; ++i) 
-		for(int j = 0; j <5; ++j) 
-			memset(dp[i][j], INF, sizeof(dp[i][j]));
+	for(int i; scanf("%d", &i) && i;)
+		seq.push_back(i);
 
-	dp[move[1]][0][1] = dp[0][move[1]][1] = 2;
+	len = seq.size();
 
-
-	for(int i = 2; i <= n; ++i)
-	{
-		for(int j = 0; j <= 4; ++j)
-		{
-			/*
-			for(int k = 0; k <= 4; ++k)
-			{
-				dp[j][move[i]][i] = min(dp[j][move[i]][i], dp[j][k][i-1] + work(k, move[i]));
-				dp[move[i]][j][i] = min(dp[move[i]][j][i], dp[k][j][i-1] + work(k, move[i]));
-			}
-			*/
-			
-			dp[j][move[i]][i] = min(dp[j][move[i-1]][i-1] + work(move[i-1], move[i]), dp[move[i-1]][move[i]][i-1] + work(move[i-1], j));
-			dp[move[i]][j][i] = min(dp[move[i-1]][j][i-1] + work(move[i-1], move[i]), dp[move[i-1]][move[i]][i-1] + work(move[i-1], j));
-			
-		}
-
-		if(i == n)
-		{
-			int ans = INF;
-
-			for(int j = 0; j <= 4; ++j)
-			{
-				ans = min(ans, dp[move[n]][j][n]);
-				ans = min(ans, dp[j][move[n]][n]);
-			}
-
-			printf("%d\n", ans);
-		}
-	}
+	cout << solve(0, 0, 0) << "\n";
 }
 
 int main()
 {
 	proc();
+	return 0;
 }

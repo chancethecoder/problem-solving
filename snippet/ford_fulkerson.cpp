@@ -2,9 +2,7 @@
 #include <cstdio>
 #include <cstring>
 #include <queue>
-#include <vector>
 
-using namespace std;
 const int MAX_N = 200;
 const int INF = 1e9;
 int N, M;
