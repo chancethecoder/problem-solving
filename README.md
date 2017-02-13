@@ -1,8 +1,8 @@
 # Problem Solving Practice
 
-This is my personal algorithm solutions.  
+This is my solutions.  
 
-feel free to see and try your self!
+Feel free to see and try your self!
 
 # Index
 
