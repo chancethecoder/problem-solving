@@ -1,75 +1,106 @@
-/*
-5 10
-C.........
-..........
-.....S....
-..........
-.........C
-25
-*/
-
 #include <iostream>
 #include <cstdio>
+#include <algorithm>
 #include <cstring>
-#include <vector>
 
 using namespace std;
+
+struct pos { int y, x; };
+
 const int MAX_N = 50;
-const int INF = 1e9;
-const int dy[] = {0, 0, -1, 1};
-const int dx[] = {-1, 1, 0, 0};
+const int INF = 1000007;
+// const int dy[] = { 0, 1, 0, -1, 0 };
+// const int dx[] = { 0, 0, 1, 0, -1 };
+const int dy[] = { 0, 0, 1, 0, -1 };
+const int dx[] = { 0, 1, 0, -1, 0 };
 int N, M;
-char map[MAX_N][MAX_N];
-int cache[MAX_N][MAX_N][4][2][2];
-pair<int, int> S;
-vector<pair<int, int> > C;
+char map[MAX_N + 1][MAX_N + 1];
+int memo[MAX_N + 1][MAX_N + 1][5][4];
+pos src, dst[2];
 
-int solve(int y, int x, int dir, bool picked1, bool picked2)
+/*
+5 5
+S....
+...C.
+..##.
+.....
+.C...
+
+10 10
+S#.C......
+....#####.
+..........
+..........
+..........
+..........
+..........
+..........
+..........
+.........C
+
+5 5
+S#.C.
+....#
+.....
+.....
+....C
+*/
+
+int solve(int y, int x, int k, int c)
 {
-    if(y == S.first && x == S.second && picked1 && picked2) return 0;
+    if (c == 3) return 0;
 
-    int &ret = cache[y][x][dir][picked1][picked2];
-    if(ret != -1) return ret;
+    int &ret = memo[y][x][k][c];
+    if (ret != -1) return ret;
 
     ret = INF;
 
-    for(int k = 0; k < 4; ++k)
+    for (int nk = 1; nk <= 4; nk++)
     {
-        int ny = y + dy[k];
-        int nx = x + dx[k];
+        if (nk == k) continue;
+        int ny = y + dy[nk];
+        int nx = x + dx[nk];
+        if (ny < 0 || ny >= N || nx < 0 || nx >= M) continue;
+        if (map[ny][nx] == '#') continue;
 
-        if(ny < 0 || nx < 0 || ny >= N || nx >= M) continue;
-        if(k == dir || map[ny][nx] == '#') continue;
-
-        int tmp = solve(ny, nx, k,
-                    picked1 || (ny == C[0].first && nx == C[0].second),
-                    picked2 || (ny == C[1].first && nx == C[1].second)) + 1;
-        if(ret > tmp) ret = tmp;
+        int nc = c;
+        if (map[ny][nx] == 'C')
+        {
+            int t = (ny == dst[0].y && nx == dst[0].x) ? 1 : 2;
+            if (nc == t) continue;
+            nc += t;
+        }
+        ret = min(ret, solve(ny, nx, nk, nc) + 1);
     }
 
     return ret;
 }
 
-void proc()
-{
+int main() {
+
     cin >> N >> M;
-
-    for(int i = 0; i < N; ++i)
+    for (int i = 0, c = 0; i < N; i++)
     {
-        getchar(); scanf("%s", map[i]);
-
-        for(int j = 0; j < M; ++j)
-            if(map[i][j] == 'S')
-                S.first = i, S.second = j;
-            else if(map[i][j] == 'C')
-                C.push_back(make_pair(i, j));
+        cin >> map[i];
+        for (int j = 0; j < M; j++)
+        {
+            if (map[i][j] == 'S')
+            {
+                src.y = i;
+                src.x = j;
+            }
+            if (map[i][j] == 'C')
+            {
+                dst[c].y = i;
+                dst[c++].x = j;
+            }
+        }
     }
 
-    
-}
+    memset(memo, -1, sizeof(memo));
+    int ans = solve(src.y, src.x, 0, 0);
 
-int main()
-{
-    proc();
+    cout << (ans == INF ? -1 : ans) << endl;
+
     return 0;
 }
