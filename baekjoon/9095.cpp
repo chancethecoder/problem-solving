@@ -2,14 +2,19 @@
 
 using namespace std;
 
+int solve(int n) {
+  if(n < 0) return 0;
+  if(n == 0) return 1;
+  return solve(n - 1) + solve(n - 2) + solve(n - 3);
+}
+
 int main() {
 
     int tc; cin >> tc;
 
     while (tc--) {
         int n; cin >> n;
-        int a[] = {0, 1, 2, 4, 7, 13, 24, 44, 81, 149, 274};
-        cout << a[n] << endl;
+        cout << solve(n) << endl;
     }
 
     return 0;
