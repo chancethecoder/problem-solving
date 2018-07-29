@@ -1,15 +1,11 @@
 # Problem Solving Practice
 
-This is my solutions.  
+This is my PS solutions
 
-Feel free to see and try your self!
+## Sites
 
-# Index
-
-[algospot](https://algospot.com/)  
-
-[baekjoon](https://acmicpc.net/)  
-
-[codeforce](http://codeforces.com/)  
-
-[topcoder](https://www.topcoder.com/)
+- [algospot](https://algospot.com/)
+- [baekjoon](https://acmicpc.net/)
+- [codeforce](http://codeforces.com/)
+- [topcoder](https://www.topcoder.com/)
+- [programmers](https://programmers.co.kr/)

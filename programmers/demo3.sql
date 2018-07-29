@@ -1,0 +1,4 @@
+select BRANCH_ID, SUM(SALARY)
+from EMPLOYEE
+GROUP BY BRANCH_ID
+order by BRANCH_ID asc
