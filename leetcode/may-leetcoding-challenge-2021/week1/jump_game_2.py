@@ -12,7 +12,7 @@ You can assume that you can always reach the last index.
 Constraints:
 
 1 <= nums.length <= 1000
-0 <= nums[i] <= 105
+0 <= nums[i] <= 10^5
 """
 
 class Solution:

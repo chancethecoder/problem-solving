@@ -7,8 +7,8 @@ For this problem, a height-balanced binary tree is defined as a binary tree in w
 
 Constraints:
 
-The number of nodes in head is in the range [0, 2 * 104].
--105 <= Node.val <= 105
+The number of nodes in head is in the range [0, 2 * 10^4].
+-10^5 <= Node.val <= 10^5
 """
 
 # Definition for singly-linked list.

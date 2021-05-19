@@ -9,8 +9,8 @@ Return the maximum number of courses that you can take.
 
 Constraints:
 
-- 1 <= courses.length <= 104
-- 1 <= durationi, lastDayi <= 104
+- 1 <= courses.length <= 10^4
+- 1 <= durationi, lastDayi <= 10^4
 """
 
 class Solution:

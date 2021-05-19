@@ -8,8 +8,8 @@ We define an array is non-decreasing if nums[i] <= nums[i + 1] holds for every i
 Constraints:
 
 n == nums.length
-1 <= n <= 104
--105 <= nums[i] <= 105
+1 <= n <= 10^4
+-10^5 <= nums[i] <= 10^5
 """
 
 class Solution:

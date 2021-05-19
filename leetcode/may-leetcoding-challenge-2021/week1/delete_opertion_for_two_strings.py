@@ -67,6 +67,7 @@ class Solution:
                     memo[i+1][j+1] = max(memo[i+1][j], memo[i][j+1])
         return len(word1) + len(word2) - (2 * memo[len(word1)][len(word2)])
 
+"""
 solution = Solution()
 print(solution.minDistance('sea', 'eat')) # 2
 print(solution.minDistance('leetcode', 'etco')) # 4
@@ -77,3 +78,4 @@ print(solution.minDistance('kitten', 'sitting')) # 5
 print(solution.minDistance('intention', 'execution')) # 8
 print(solution.minDistance('abcdxabcde', 'abcdeabcdx')) # 4
 print(solution.minDistance('rxsqwxvofiwklxisvzdheasbczkltcjzslbovpsaqewoggxtcmjoqxsialugufydfetarflfzsskgfjnafqlqdi', 'sxolsazosiaf')) # 75
+"""
